@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+
+<body>
+    <h1>URL Shortener</h1>
+    <input type="text" id="url" />
+    <button type="submit" onclick="fetchUrl(event)">Shorten URL</button>
+    <p id="shortened-url"></p>
+    <script>
+        async function fetchUrl(e) {
+            var urlInput = document.getElementById("url");
+            var url = urlInput.value;
+
+            if (!url) {
+                alert("NO URL");
+            } else {
+                e.preventDefault();
+                await fetch('http://localhost:3000/url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: url })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('shortened-url').innerHTML = 'Shortened URL: http://localhost:3000/' + String(data.id);
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>
