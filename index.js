@@ -15,7 +15,8 @@ app.use(express.json());
 app.use('/url', urlRouter);
 
 app.get('/', async (req, res) => {
-    return res.render('home');
+    const allUrls = await URL.find({}, { _id: 0, shortUrl: 1, url: 1 });
+    return res.render('home', { allUrls });
 });
 
 app.get('/:shortUrl', async (req, res) => {

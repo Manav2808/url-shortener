@@ -12,6 +12,24 @@
     <input type="text" id="url" />
     <button type="submit" onclick="fetchUrl(event)">Shorten URL</button>
     <p id="shortened-url"></p>
+
+    <h3>Explore all the Short Urls</h3>
+    <table>
+        <tr>
+            <th>URL</th>
+            <th>Short URL</t>
+        </tr>
+        <% allUrls.forEach(urls=> { %>
+            <tr>
+                <td>
+                    <%= urls.url %>
+                </td>
+                <td>
+                    <%= urls.shortUrl %>
+                </td>
+            </tr>
+            <% }) %>
+    </table>
     <script>
         async function fetchUrl(e) {
             var urlInput = document.getElementById("url");
