@@ -4,35 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener</title>
+    <title>Shorti.fy - URL Shortener</title>
+    <style>
+        p {
+            text-align: center;
+        }
+
+        #shortened-url:hover,
+        .url-list-item:hover {
+            cursor: pointer;
+        }
+
+        #short-url-title {
+            margin-top: 40px;
+            font-size: 22px;
+        }
+
+        #instruction {
+            color: gray;
+            font-size: 16px;
+            margin-top: -20px;
+        }
+
+        #title {
+            font-family: "Helvetica";
+            font-size: 50px;
+        }
+
+        #form,
+        #url-table {
+            display: flex;
+            justify-content: center;
+        }
+
+        #form {
+            gap: 10px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>URL Shortener</h1>
-    <form method="post" onsubmit="fetchUrl(event)">
+    <p id="title">Shorti.fy</p>
+    <form method="post" onsubmit="fetchUrl(event)" id="form">
         <input type="text" id="url" required />
-        <button type="submit">Shorten URL</button>
+        <button type="submit">Submit</button>
     </form>
     <p id="shortened-url"></p>
-
-    <h3>Explore all the Short Urls</h3>
-    <table>
+    <p id="short-url-title">Explore all the short urls</p>
+    <p id="instruction">(Click to copy a URL)</p>
+    <table id="url-table">
         <tr>
             <th>URL</th>
             <th>Short URL</t>
         </tr>
-        <% allUrls.forEach(urls=> { %>
+        <% for( let index=0; index < allUrls.length; index++ ) { %>
             <tr>
                 <td>
-                    <%= urls.url %>
+                    <%= allUrls[index].url %>
                 </td>
-                <td>
-                    <%= urls.shortUrl %>
+                <td class="url-list-item" id="short-url-list-item-<%= index %>" onclick="copyTextToClipboard(this.id)">
+                    http://localhost:3000/<%= allUrls[index].shortUrl %>
                 </td>
             </tr>
-            <% }) %>
+            <% } %>
     </table>
     <script>
+        function copyTextToClipboard(id) {
+            var text = document.getElementById(id).innerText;
+            var elem = document.createElement("textarea");
+            document.body.appendChild(elem);
+            elem.value = text;
+            elem.select();
+            document.execCommand("copy");
+            console.log(elem.value);
+            document.body.removeChild(elem);
+        }
         async function fetchUrl(e) {
             var urlInput = document.getElementById("url");
             var url = urlInput.value;

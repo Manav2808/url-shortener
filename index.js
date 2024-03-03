@@ -37,7 +37,7 @@ try {
         .then(() => {
             console.log("Connected to MongoDB");
             app.listen(PORT, () => {
-                console.log(`Server started on PORT: ${PORT}`);
+                console.log(`Server started on PORT: http://localhost:${PORT}`);
             })
         })
 } catch (error) {
