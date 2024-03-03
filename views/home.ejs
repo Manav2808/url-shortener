@@ -9,8 +9,10 @@
 
 <body>
     <h1>URL Shortener</h1>
-    <input type="text" id="url" />
-    <button type="submit" onclick="fetchUrl(event)">Shorten URL</button>
+    <form method="post" onsubmit="fetchUrl(event)">
+        <input type="text" id="url" required />
+        <button type="submit">Shorten URL</button>
+    </form>
     <p id="shortened-url"></p>
 
     <h3>Explore all the Short Urls</h3>
@@ -35,22 +37,18 @@
             var urlInput = document.getElementById("url");
             var url = urlInput.value;
 
-            if (!url) {
-                alert("NO URL");
-            } else {
-                e.preventDefault();
-                await fetch('http://localhost:3000/url', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ url: url })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('shortened-url').innerHTML = 'Shortened URL: http://localhost:3000/' + String(data.id);
-                    });
-            }
+            e.preventDefault();
+            await fetch('http://localhost:3000/url', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: url })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('shortened-url').innerHTML = 'Shortened URL: http://localhost:3000/' + String(data.id);
+                });
         }
     </script>
 </body>
